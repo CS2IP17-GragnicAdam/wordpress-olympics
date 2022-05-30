@@ -1,0 +1,77 @@
+version: '3.1'
+
+# ##############################################################################
+# SERVICES
+# ##############################################################################
+
+services:
+
+  # ----------------------------------------------------------------------------
+  # WORDPRESS
+  # ----------------------------------------------------------------------------
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - ${WORDPRESS_PORT}:80
+    depends_on: 
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST} 
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER} 
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD} 
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME} 
+    volumes:
+      - ./site:/var/www/html
+
+  cli:
+    image: wordpress:cli
+    volumes:
+      - ./site:/var/www/html/
+    user: xfs
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST} 
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER} 
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD} 
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME} 
+      WORDPRESS_DEBUG: 1
+
+  # ----------------------------------------------------------------------------
+  # DATABASE
+  # ----------------------------------------------------------------------------
+
+  mariadb:
+    image: mariadb:${MARIADB_VERSION}
+    working_dir: /application
+    restart: always
+    volumes:
+      - maria_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306"
+
+  phpmyadmin:
+    depends_on: 
+      - mariadb
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    restart: always
+    ports:
+      - "${PMA_HTTP_PORT}:80"
+    volumes:
+      - pma_sessions:/sessions
+
+
+# ##############################################################################
+# SERVICES
+# ##############################################################################
+
+volumes:
+  maria_data:
+  pma_sessions:
