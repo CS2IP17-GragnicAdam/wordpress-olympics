@@ -1,1 +1,10 @@
 .vscode
+
+site/wp-admin
+site/wp-includes
+
+site/wp-content/languages
+site/wp-content/themes
+site/wp-content/upgrade
+site/wp-content/uploads
+site/wp-content/index.php

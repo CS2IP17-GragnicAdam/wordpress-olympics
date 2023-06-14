@@ -29,3 +29,6 @@ wpshell:
 cli:
 	@# Connect to WordPress CLI container
 	@docker compose run --rm cli bash
+
+logs:
+	@docker compose logs -f
