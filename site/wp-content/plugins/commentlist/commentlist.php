@@ -22,8 +22,6 @@ function shortcode_commentlist($userAttributes)
 
     $result = $wpdb->get_results($sql);
 
-    var_dump($result[0]);
-
     $text = "<h3>Commentaires Récents</h3><ul>";
 
     foreach ($result as $post) {
