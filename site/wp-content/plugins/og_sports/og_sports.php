@@ -24,11 +24,15 @@ function shortcode_sport_simple($userAttributes)
     extract($finalAttributes);
 
     return <<< HTML
-        <div class="">
-            <h3>$name</h3>
-            <p>Origine : <strong>$origin</strong></p>
-            <p>Inventeur : <strong>$inventor</strong></p>
-            <p>Période : <strong>$period</strong></p>
+        <div class="card text-bg-info mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">$name</h5>
+                <p class="card-text">
+                    <p>Origine : <strong>$origin</strong></p>
+                    <p>Inventeur : <strong>$inventor</strong></p>
+                    <p>Période : <strong>$period</strong></p>
+                </p>
+            </div>
         </div>
     HTML;
 }
