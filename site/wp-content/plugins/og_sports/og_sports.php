@@ -8,6 +8,7 @@
  */
 add_shortcode('sport_simple', 'shortcode_sport_simple');
 add_shortcode('sport_card', 'shortcode_sport_card');
+add_shortcode('sports_all', 'shortcode_sports_all');
 
 function shortcode_sport_simple($userAttributes)
 {
@@ -55,5 +56,47 @@ function shortcode_sport_card($userAttributes)
         $text = $text . "<p class='card-text'>$summary</p>";
     }
     $text = $text . "<a href='#' class='btn btn-primary'>Detail</a></div></div>";
+    return $text;
+}
+
+function shortcode_sports_all($userAttributes)
+{
+    global $wpdb;
+
+    $defaultAttributes = [
+        "limit" => 10
+    ];
+
+    $finalAttributes = shortcode_atts($defaultAttributes, $userAttributes);
+
+    extract($finalAttributes);
+
+    $sql = "SELECT * FROM `wp_sports` LIMIT $limit";
+
+    $result = $wpdb->get_results($sql);
+
+    $text = '<div class="row row-cols-1 row-cols-md-2 g-4">';
+    foreach ($result as $sport) {
+        $text = $text . <<< HTML
+        <div class="card w-45 m-4" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">$sport->name</h5>
+                <p class="card-text">$sport->summary</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ORIGINE: $sport->origin</li>
+                <li class="list-group-item">PERIODE: $sport->period</li>
+                <li class="list-group-item">INVENTEUR: $sport->inventor</li>
+            </ul>
+            <div class="card-body">
+                <a href='#' class='btn btn-primary'>Detail</a>
+            </div>
+        </div>
+        HTML;
+    }
+
+    $text = $text . "</div>";
+
     return $text;
 }
