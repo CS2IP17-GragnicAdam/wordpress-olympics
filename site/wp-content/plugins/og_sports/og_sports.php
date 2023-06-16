@@ -84,7 +84,7 @@ function shortcode_sports_all($userAttributes)
         $image_path = plugin_dir_url(__FILE__) . "img/$sport->photo.jpeg";
 
         $text = $text . <<< HTML
-        <div class="card w-45 m-4" style="width: 18rem;">
+        <div class="card m-2" style="width: 45%;">
             <img src="$image_path" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">$sport->name</h5>
